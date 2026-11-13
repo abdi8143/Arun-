@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arun Restaurant | Dalabka Online</title>
+
+<style>
+:root {
+  --primary:#d9381e;
+  --green:#25d366;
+  --dark:#1e1e24;
+  --light:#f8f9fa;
+}
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+body {
+  background:var(--light);
+  color:var(--dark);
+  line-height:1.6;
+}
+header {
+  background:linear-gradient(135deg,#17171d,#38313a);
+  color:white;
+  text-align:center;
+  padding:30px 15px;
+}
+header h1 {
+  color:#ffb703;
+  font-size:32px;
+  margin-bottom:8px;
+}
+header p {color:#ddd;margin:6px}
+.call {
+  display:inline-block;
+  margin-top:12px;
+  background:var(--primary);
+  color:white;
+  text-decoration:none;
+  padding:11px 20px;
+  border-radius:25px;
+  font-weight:bold;
+}
+.container {
+  max-width:1150px;
+  margin:25px auto;
+  padding:0 15px;
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:22px;
+}
+.section-title {
+  font-size:23px;
+  margin:20px 0 15px;
+  border-left:5px solid var(--primary);
+  padding-left:10px;
+}
+.menu-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:15px;
+}
+.card {
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 3px 12px #0001;
+}
+.card img {
+  width:100%;
+  height:165px;
+  object-fit:cover;
+  display:block;
+}
+.card-body {padding:15px}
+.card-title {
+  font-weight:bold;
+  font-size:18px;
+}
+.card-price {
+  color:var(--primary);
+  font-size:17px;
+  font-weight:bold;
+  margin:8px 0 12px;
+}
+.btn-add {
+  background:var(--dark);
+  color:white;
+  width:100%;
+  padding:11px;
+  border:0;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.btn-add:hover {background:var(--primary)}
+.cart-box {
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  height:fit-content;
+  box-shadow:0 3px 12px #0001;
+}
+.cart-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:5px;
+  border-bottom:2px solid #eee;
+  padding-bottom:12px;
+}
+.btn-clear {
+  background:#dc3545;
+  color:white;
+  padding:7px 10px;
+  font-size:12px;
+}
+.cart-item {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid #eee;
+  padding:12px 0;
+  font-size:14px;
+}
+.cart-controls {
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.qty-btn {
+  background:#eee;
+  padding:5px 10px;
+}
+.remove-btn {
+  background:#dc3545;
+  color:white;
+  padding:5px 7px;
+}
+.form-group {margin-top:13px}
+label {
+  display:block;
+  font-weight:bold;
+  font-size:14px;
+  margin-bottom:5px;
+}
+input,select {
+  width:100%;
+  padding:11px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+}
+.summary {
+  background:#f5f5f5;
+  padding:13px;
+  margin-top:17px;
+  border-radius:7px;
+}
+.summary-row {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin:7px 0;
+  font-size:14px;
+}
+.summary-total {
+  border-top:1px solid #ddd;
+  padding-top:10px;
+  color:var(--primary);
+  font-size:18px;
+  font-weight:bold;
+}
+.evc-notice {
+  background:#fff3cd;
+  border-left:4px solid #ffc107;
+  padding:13px;
+  margin-top:15px;
+  border-radius:5px;
+  font-size:13px;
+}
+.btn-whatsapp {
+  background:var(--green);
+  color:white;
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:7px;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:15px;
+  cursor:pointer;
+}
+.btn-whatsapp:hover {background:#1da851}
+footer {
+  background:var(--dark);
+  color:#ddd;
+  text-align:center;
+  padding:25px;
+  margin-top:35px;
+}
+@media(max-width:750px) {
+  .container {grid-template-columns:1fr}
+  header h1 {font-size:27px}
+  .cart-box {width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🍔 Arun Restaurant</h1>
+  <p>📍 Xamar Jadiid, Muqdisho</p>
+  <p>🕒 Waxaan Furanahay: 16:00 – 03:00</p>
+  <a class="call" href="tel:+252614904222">
+    📞 Wac Delivery: +252 614904222
+  </a>
+</header>
+
+<div class="container">
+
+<main>
+  <h2 class="section-title">🍔 Liiska Cuntooyinka</h2>
+  <div class="menu-grid" id="food-menu"></div>
+
+  <h2 class="section-title">🥤 Liiska Cabitaannada</h2>
+  <div class="menu-grid" id="drink-menu"></div>
+</main>
+
+<aside class="cart-box">
+
+  <div class="cart-heading">
+    <h2>🛒 Dalabkaaga</h2>
+    <button class="btn-clear" onclick="clearCart()">
+      Tirtir Dhammaan
+    </button>
+  </div>
+
+  <div id="cart-items">
+    <p style="color:#777;padding:12px 0">
+      Gaadhiga dalabku waa maran yahay.
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="customer-name">Magacaaga Oo Buuxa *</label>
+    <input id="customer-name" type="text"
+      placeholder="Geli magacaaga">
+  </div>
+
+  <div class="form-group">
+    <label for="customer-phone">Lambarkaaga EVC *</label>
+    <input id="customer-phone" type="tel"
+      placeholder="+252 61XXXXXXX">
+  </div>
+
+  <div class="form-group">
+    <label for="district">Dooro Degmadaada *</label>
+    <select id="district" onchange="renderCart()">
+      <option value="1">Xamar Jadiid - $1.00</option>
+      <option value="1">Warta Nabadda - $1.00</option>
+      <option value="1">Hawl-Wadaag - $1.00</option>
+      <option value="1">Boondheere - $1.00</option>
+      <option value="1">Shibis - $1.00</option>
+      <option value="1">Yaqshiid - $1.00</option>
+      <option value="2">Wadajir - $2.00</option>
+      <option value="2">Hodan - $2.00</option>
+      <option value="2">Dharkenley - $2.00</option>
+      <option value="2">Kaaraan - $2.00</option>
+      <option value="2">Dayniile - $2.00</option>
+      <option value="2">Xamar Weyne / Xamar Jajab - $2.00</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="address-details">
+      Faahfaahinta Guriga / Astaanta Kuu Dhow *
+    </label>
+    <input id="address-details" type="text"
+      placeholder="Waddada, masaajidka kuu dhow...">
+  </div>
+
+  <div class="summary">
+    <div class="summary-row">
+      <span>Qiimaha Cuntada:</span>
+      <span id="subtotal">$0.00</span>
+    </div>
+
+    <div class="summary-row">
+      <span>Delivery:</span>
+      <span id="delivery-fee">$1.00</span>
+    </div>
+
+    <div class="summary-row summary-total">
+      <span>Wadarta:</span>
+      <span id="total-price">$1.00</span>
+    </div>
+  </div>
+
+  <div class="evc-notice">
+    <strong>💳 Lacag Bixinta EVC Plus</strong><br>
+    Fadlan ku soo dir lacagta lambarka:
+    <strong>+252 614904222</strong><br>
+    Sug xaqiijinta lacagta ka hor diyaarinta dalabka.
+  </div>
+
+  <button class="btn-whatsapp" onclick="sendWhatsApp()">
+    ✅ Xaqiiji & U Dir Dalabka WhatsApp
+  </button>
+
+</aside>
+</div>
+
+<footer>
+  <h3>Arun Restaurant</h3>
+  <p>Xamar Jadiid, Muqdisho</p>
+  <p>📞 +252 614904222</p>
+  <p>© 2026 Arun Restaurant. All Rights Reserved.</p>
+</footer>
+
+<script>
+
+// Lambarrada ganacsiga
+const WHATSAPP_NUMBER = "252614748371";
+
+// Liiska cuntada
+const foods = [
+  {
+    name:"Shawarma",
+    price:7.99,
+    image:"https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=600"
+  },
+  {
+    name:"Burger",
+    price:6.99,
+    image:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600"
+  },
+  {
+    name:"Pizza",
+    price:10.99,
+    image:"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600"
+  }
+];
+
+// Liiska cabitaannada
+const drinks = [
+  {
+    name:"Maaza Juice",
+    price:3.69,
+    image:"https://images.unsplash.com/photo-1546173159-315724a31696?w=600"
+  },
+  {
+    name:"Strawberry Juice",
+    price:2.99,
+    image:"https://images.unsplash.com/photo-1497534446932-c925b458314e?w=600"
+  },
+  {
+    name:"Mango Juice",
+    price:2.99,
+    image:"https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600"
+  },
+  {
+    name:"Watermelon Juice",
+    price:1.99,
+    image:"https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=600"
+  }
+];
+
+let cart = [];
+
+// Soo bandhig cuntooyinka
+function showProducts(items, elementId) {
+  document.getElementById(elementId).innerHTML =
+    items.map(p => `
+      <div class="card">
+        <img src="${p.image}"
+          alt="${p.name}"
+          onerror="this.src='https://placehold.co/600x400?text=Arun+Restaurant'">
+
+        <div class="card-body">
+          <div class="card-title">${p.name}</div>
+          <div class="card-price">$${p.price.toFixed(2)}</div>
+
+          <button class="btn-add"
+            onclick="addToCart('${p.name}',${p.price})">
+            + Ku Dar Dalabka
+          </button>
+        </div>
+      </div>
+    `).join("");
+}
+
+// Ku dar cart
+function addToCart(name,price) {
+  let found = cart.find(item => item.name === name);
+
+  if(found) {
+    found.qty++;
+  } else {
+    cart.push({name,price,qty:1});
+  }
+
+  renderCart();
+}
+
+// Kordhi ama dhim
+function changeQty(index,amount) {
+  cart[index].qty += amount;
+
+  if(cart[index].qty <= 0) {
+    cart.splice(index,1);
+  }
+
+  renderCart();
+}
+
+// Ka saar hal cunto
+function removeItem(index) {
+  cart.splice(index,1);
+  renderCart();
+}
+
+// Tirtir dhammaan
+function clearCart() {
+  cart = [];
+  renderCart();
+}
+
+// Xisaabi dalabka
+function renderCart() {
+  let subtotal = 0;
+  let html = "";
+
+  cart.forEach((item,index) => {
+    let line = item.price * item.qty;
+    subtotal += line;
+
+    html += `
+      <div class="cart-item">
+        <div>
+          <strong>${item.name}</strong><br>
+          $${item.price.toFixed(2)} x ${item.qty}
+          = $${line.toFixed(2)}
+        </div>
+
+        <div class="cart-controls">
+          <button class="qty-btn"
+            onclick="changeQty(${index},-1)">−</button>
+
+          ${item.qty}
+
+          <button class="qty-btn"
+            onclick="changeQty(${index},1)">+</button>
+
+          <button class="remove-btn"
+            onclick="removeItem(${index})">X</button>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("cart-items").innerHTML =
+    html || '<p style="color:#777;padding:12px 0">Gaadhiga dalabku waa maran yahay.</p>';
+
+  let fee = Number(document.getElementById("district").value);
+
+  document.getElementById("subtotal").textContent =
+    "$" + subtotal.toFixed(2);
+
+  document.getElementById("delivery-fee").textContent =
+    "$" + fee.toFixed(2);
+
+  document.getElementById("total-price").textContent =
+    "$" + (subtotal + fee).toFixed(2);
+}
+
+// WhatsApp u dir dalabka
+function sendWhatsApp() {
+
+  if(cart.length === 0) {
+    alert("Fadlan marka hore dooro cunto ama cabitaan.");
+    return;
+  }
+
+  let name = document.getElementById("customer-name").value.trim();
+  let phone = document.getElementById("customer-phone").value.trim();
+  let address = document.getElementById("address-details").value.trim();
+
+  let district = document.getElementById("district");
+  let districtName = district.options[district.selectedIndex].text;
+
+  if(!name || !phone || !address) {
+    alert("Fadlan buuxi magaca, telefoonka iyo cinwaanka.");
+    return;
+  }
+
+  let subtotal = 0;
+  let list = "";
+
+  cart.forEach((item,index) => {
+    let line = item.price * item.qty;
+    subtotal += line;
+
+    list +=
+      (index+1) + ". " + item.name +
+      " (x" + item.qty + ") - $" +
+      line.toFixed(2) + "\n";
+  });
+
+  let fee = Number(district.value);
+  let total = subtotal + fee;
+
+  let message =
+`*DALAB CUSUB - ARUN RESTAURANT*
+
+*Macmiilka:* ${name}
+*Lambarka EVC:* ${phone}
+*Degmada:* ${districtName}
+*Cinwaanka:* ${address}
+
+*DALABKA:*
+${list}
+
+*Qiimaha Cuntada:* $${subtotal.toFixed(2)}
+*Delivery:* $${fee.toFixed(2)}
+*WADARTA:* $${total.toFixed(2)}
+
+*EVC Plus:* +252 614904222
+
+Fadlan xaqiiji dalabkayga. Mahadsanid!`;
+
+  let url =
+    "https://wa.me/" + WHATSAPP_NUMBER +
+    "?text=" + encodeURIComponent(message);
+
+  window.open(url,"_blank");
+}
+
+// Bilow website-ka
+showProducts(foods,"food-menu");
+showProducts(drinks,"drink-menu");
+renderCart();
+
+</script>
+
+</body>
+</html>
